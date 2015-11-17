@@ -6,7 +6,7 @@ Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Epoch:		2
 Version:	1.6.0
-Release:	1
+Release:	1.1
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
@@ -54,7 +54,8 @@ of %{name}, including the vainfo tool for determining what (if any)
 %build
 %configure \
 	--disable-static \
-	--enable-glx
+	--enable-glx \
+	--disable-wayland
 
 %make
 
