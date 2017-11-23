@@ -1,4 +1,4 @@
-%define major 1
+%define major 2
 %define libname %mklibname va %{major}
 %define devname %mklibname va -d
 # disable utils after upgrade, that build libva
@@ -8,14 +8,14 @@
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Epoch:		2
-Version:	1.8.3
+Version:	2.0.0
 Release:	1
 Group:		System/Libraries
 License:	MIT
-Url:		http://freedesktop.org/wiki/Software/vaapi
-Source0:	http://www.freedesktop.org/software/vaapi/releases/libva/%{name}-%{version}.tar.bz2
+Url:		https://01.org/linuxmedia/vaapi
+Source0:	https://github.com/01org/libva/archive/libva-%{version}.tar.gz
 # utils
-Source1:	https://github.com/01org/libva-utils/releases/download/%{version}/%{name}-utils-%{version}.tar.bz2
+Source1:	https://github.com/01org/libva-utils/archive/%{version}.tar.gz
 BuildRequires:	pkgconfig(egl)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(libdrm)
@@ -57,11 +57,13 @@ of %{name}, including the vainfo tool for determining what (if any)
 %endif
 
 %prep
-%setup -q -a 1
+%setup -qn %{name}-%{name}-%{version} -a 1
+NOCONFIGURE=1 ./autogen.sh
+cd libva-utils*
+NOCONFIGURE=1 ./autogen.sh
 
 %build
 %configure \
-	--disable-static \
 	--enable-glx
 
 %make
@@ -81,11 +83,9 @@ popd
 
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}*
-%{_libdir}/%{name}-egl.so.%{major}*
 %{_libdir}/%{name}-wayland.so.%{major}*
 %{_libdir}/%{name}-drm.so.%{major}*
 %{_libdir}/%{name}-glx.so.%{major}*
-%{_libdir}/%{name}-tpi.so.%{major}*
 %{_libdir}/%{name}-x11.so.%{major}*
 
 %files -n %{devname}
