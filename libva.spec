@@ -12,8 +12,8 @@ Version:	2.0.0
 Release:	1
 Group:		System/Libraries
 License:	MIT
-Url:		https://01.org/linuxmedia/vaapi
-Source0:	https://github.com/01org/libva/archive/libva-%{version}.tar.gz
+Url:		http://freedesktop.org/wiki/Software/vaapi
+Source0:	https://github.com/01org/libva/archive/%{version}.tar.gz
 # utils
 Source1:	https://github.com/01org/libva-utils/archive/%{version}.tar.gz
 BuildRequires:	pkgconfig(egl)
@@ -57,13 +57,14 @@ of %{name}, including the vainfo tool for determining what (if any)
 %endif
 
 %prep
-%setup -qn %{name}-%{name}-%{version} -a 1
-NOCONFIGURE=1 ./autogen.sh
-cd libva-utils*
-NOCONFIGURE=1 ./autogen.sh
+%setup -q -a 1
+#sed -e 's/-Werror//' -i test/Makefile.am
 
 %build
+autoreconf -v --install
 %configure \
+	--disable-static \
+	--enable-wayland \
 	--enable-glx
 
 %make
