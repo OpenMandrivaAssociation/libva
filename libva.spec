@@ -105,4 +105,6 @@ popd
 %{_bindir}/mpeg2vldemo
 %{_bindir}/putsurface*
 %{_bindir}/vainfo
+%{_bindir}/vavpp
+%{_bindir}/vp9enc
 %endif
