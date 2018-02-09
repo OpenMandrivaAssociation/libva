@@ -15,7 +15,7 @@ License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
 Source0:	https://github.com/01org/libva/archive/%{version}.tar.gz
 # utils
-Source1:	https://github.com/01org/libva-utils/archive/%{version}.tar.gz
+Source1:	https://github.com/01org/libva-utils/releases/download/%{version}/%{name}-utils-%{version}.tar.bz2
 BuildRequires:	pkgconfig(egl)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(libdrm)
