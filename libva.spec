@@ -3,7 +3,7 @@
 %define devname %mklibname va -d
 # disable utils after upgrade, that build libva
 # and enable utils
-%bcond_without utils
+%bcond_with utils
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
