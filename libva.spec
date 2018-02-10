@@ -9,7 +9,7 @@ Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Epoch:		2
 Version:	2.0.0
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
@@ -30,6 +30,9 @@ Libva is a library providing the VA API video acceleration API.
 %package -n %{libname}
 Summary:	Shared library for %{name}
 Group:		System/Libraries
+%ifnarch %{armx}
+Requires:	libva-intel-driver
+%endif
 
 %description -n %{libname}
 Libva is a library providing the VA API video acceleration API.
