@@ -1,4 +1,4 @@
-%define major 2
+%define major 0
 %define libname %mklibname va %{major}
 %define devname %mklibname va -d
 # disable utils after upgrade, that build libva
