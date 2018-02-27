@@ -1,4 +1,4 @@
-%define major 2
+%define major 1
 %define libname %mklibname va %{major}
 %define devname %mklibname va -d
 # disable utils after upgrade, that build libva
@@ -8,8 +8,8 @@
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Epoch:		2
-Version:	2.0.0
-Release:	2
+Version:	2.1.0
+Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
