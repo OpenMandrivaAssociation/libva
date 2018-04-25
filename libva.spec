@@ -21,6 +21,7 @@ BuildRequires:	pkgconfig(pciaccess)
 BuildRequires:	pkgconfig(udev)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
+BuildRequires:	pkgconfig(wayland-client)
 # Make sure the -utils build uses the just-built version of the libs
 BuildConflicts:	%{devname} < %{EVRD}
 
