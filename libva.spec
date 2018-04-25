@@ -1,15 +1,13 @@
 %define major 2
 %define libname %mklibname va %{major}
 %define devname %mklibname va -d
-# disable utils after upgrade, that build libva
-# and enable utils
 %bcond_without utils
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Epoch:		2
 Version:	2.1.0
-Release:	2
+Release:	3
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
@@ -23,6 +21,8 @@ BuildRequires:	pkgconfig(pciaccess)
 BuildRequires:	pkgconfig(udev)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
+# Make sure the -utils build uses the just-built version of the libs
+BuildConflicts:	%{devname} < %{EVRD}
 
 %description
 Libva is a library providing the VA API video acceleration API.
@@ -51,7 +51,6 @@ developing applications that use %{name}.
 %package	utils
 Summary:	Tools for %{name} (including vainfo)
 Group:		System/Libraries
-BuildRequires:	%{name}-devel = %{EVRD}
 
 %description	utils
 The %{name}-utils package contains tools that are provided as part
@@ -71,6 +70,14 @@ autoreconf -v --install
 	--enable-glx
 
 %make
+%make install DESTDIR=`pwd`/libs
+
+# Make sure -utils build can find the libraries
+export PKG_CONFIG_PATH=`pwd`/libs/%{_libdir}/pkgconfig
+rm libs/%{_libdir}/*.la
+export CFLAGS="%{optflags} -I`pwd`/libs%{_includedir}"
+export CXXFLAGS="%{optflags} -I`pwd`/libs%{_includedir}"
+export LDFLAGS="%{ldflags} -L`pwd`/libs%{_libdir}"
 
 %if %{with utils}
 pushd %{name}-utils-%{version}
