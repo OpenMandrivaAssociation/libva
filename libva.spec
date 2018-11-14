@@ -26,6 +26,10 @@ Libva is a library providing the VA API video acceleration API.
 %package -n %{libname}
 Summary:	Shared library for %{name}
 Group:		System/Libraries
+Requires:	%{mklibname va-drm %{major}} = %{EVRD}
+Requires:	%{mklibname va-glx %{major}} = %{EVRD}
+Requires:	%{mklibname va-wayland %{major}} = %{EVRD}
+Requires:	%{mklibname va-x11 %{major}} = %{EVRD}
 %ifnarch %{armx}
 Requires:	libva-intel-driver
 %endif
@@ -33,19 +37,15 @@ Requires:	libva-intel-driver
 %description -n %{libname}
 Libva is a library providing the VA API video acceleration API.
 
-%libpackage %{name}-drm %{major}
-%libpackage %{name}-glx %{major}
-%libpackage %{name}-wayland %{major}
-%libpackage %{name}-x11 %{major}
+%libpackage va-drm %{major}
+%libpackage va-glx %{major}
+%libpackage va-wayland %{major}
+%libpackage va-x11 %{major}
 
 %package -n %{devname}
 Summary:	Development files for %{name}
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
-Requires:	%{mklibname %{name}-drm %{major}} = %{EVRD}
-Requires:	%{mklibname %{name}-glx %{major}} = %{EVRD}
-Requires:	%{mklibname %{name}-wayland %{major}} = %{EVRD}
-Requires:	%{mklibname %{name}-x11 %{major}} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 
 %description -n %{devname}
