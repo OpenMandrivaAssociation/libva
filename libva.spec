@@ -1,6 +1,7 @@
 %define major 2
 %define libname %mklibname va %{major}
 %define devname %mklibname va -d
+%bcond_without	glx
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
@@ -10,8 +11,10 @@ Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
 Source0:	https://github.com/01org/libva/releases/download/%{version}/%{name}-%{version}.tar.bz2
+%if %{with glx}
 BuildRequires:	pkgconfig(egl)
 BuildRequires:	pkgconfig(gl)
+%endif
 BuildRequires:	pkgconfig(libdrm)
 BuildRequires:	pkgconfig(pciaccess)
 BuildRequires:	pkgconfig(udev)
@@ -27,7 +30,9 @@ Libva is a library providing the VA API video acceleration API.
 Summary:	Shared library for %{name}
 Group:		System/Libraries
 Requires:	%{mklibname va-drm %{major}} = %{EVRD}
+%if %{with glx}
 Requires:	%{mklibname va-glx %{major}} = %{EVRD}
+%endif
 Requires:	%{mklibname va-wayland %{major}} = %{EVRD}
 Requires:	%{mklibname va-x11 %{major}} = %{EVRD}
 %ifnarch %{armx}
@@ -38,7 +43,9 @@ Requires:	libva-intel-driver
 Libva is a library providing the VA API video acceleration API.
 
 %libpackage va-drm %{major}
+%if %{with glx}
 %libpackage va-glx %{major}
+%endif
 %libpackage va-wayland %{major}
 %libpackage va-x11 %{major}
 
@@ -60,7 +67,9 @@ autoreconf -v --install
 %configure \
 	--disable-static \
 	--enable-wayland \
+%if %{with glx}
 	--enable-glx
+%endif
 
 %make_build
 
