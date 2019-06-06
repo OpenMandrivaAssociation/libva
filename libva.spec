@@ -6,7 +6,7 @@
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Version:	2.4.1
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
@@ -35,7 +35,7 @@ Requires:	%{mklibname va-glx %{major}} = %{EVRD}
 %endif
 Requires:	%{mklibname va-wayland %{major}} = %{EVRD}
 Requires:	%{mklibname va-x11 %{major}} = %{EVRD}
-%ifnarch %{armx}
+%ifnarch %{armx} %{riscv}
 Requires:	libva-intel-driver
 %endif
 
