@@ -1,12 +1,14 @@
 %define major 2
 %define libname %mklibname va %{major}
 %define devname %mklibname va -d
+%global optflags %{optflags} -O3
+
 %bcond_without	glx
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Version:	2.5.0
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
