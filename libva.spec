@@ -7,8 +7,8 @@
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
-Version:	2.5.0
-Release:	2
+Version:	2.6.0
+Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
