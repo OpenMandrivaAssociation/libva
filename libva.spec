@@ -24,6 +24,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(wayland-client)
+BuildRequires:  meson
 
 %description
 Libva is a library providing the VA API video acceleration API.
@@ -65,18 +66,16 @@ developing applications that use %{name}.
 %autosetup -p1
 
 %build
-autoreconf -v --install
-%configure \
-	--disable-static \
-	--enable-wayland \
+%meson \
 %if %{with glx}
-	--enable-glx
+	-Dwith_glx \
+	-Dwith_x11 \
+	-Dwith_wayland
 %endif
-
-%make_build
+%meson_build
 
 %install
-%make_install
+%meson_install
 
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}*
