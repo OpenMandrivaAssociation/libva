@@ -12,7 +12,7 @@ Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
-Source0:	https://github.com/01org/libva/releases/download/%{version}/%{name}-%{version}.tar.bz2
+Source0:	https://github.com/01org/libva/releases/download/%{version}/%{name}-%{version}.tar.gz
 %if %{with glx}
 BuildRequires:	pkgconfig(egl)
 BuildRequires:	pkgconfig(gl)
