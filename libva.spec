@@ -68,10 +68,10 @@ developing applications that use %{name}.
 %build
 %meson \
 %if %{with glx}
-	-Dwith_glx \
-	-Dwith_x11 \
-	-Dwith_wayland
+	-Dwith_glx=yes \
 %endif
+	-Dwith_x11=yes \
+	-Dwith_wayland=yes
 %meson_build
 
 %install
