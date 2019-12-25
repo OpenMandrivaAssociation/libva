@@ -7,12 +7,12 @@
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
-Version:	2.5.0
-Release:	2
+Version:	2.6.0
+Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://freedesktop.org/wiki/Software/vaapi
-Source0:	https://github.com/01org/libva/releases/download/%{version}/%{name}-%{version}.tar.bz2
+Source0:	https://github.com/intel/libva/archive/%{version}/%{name}-%{version}.tar.gz
 %if %{with glx}
 BuildRequires:	pkgconfig(egl)
 BuildRequires:	pkgconfig(gl)
@@ -24,6 +24,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(wayland-client)
+BuildRequires:  meson
 
 %description
 Libva is a library providing the VA API video acceleration API.
@@ -65,18 +66,16 @@ developing applications that use %{name}.
 %autosetup -p1
 
 %build
-autoreconf -v --install
-%configure \
-	--disable-static \
-	--enable-wayland \
+%meson \
 %if %{with glx}
-	--enable-glx
+	-Dwith_glx=yes \
 %endif
-
-%make_build
+	-Dwith_x11=yes \
+	-Dwith_wayland=yes
+%meson_build
 
 %install
-%make_install
+%meson_install
 
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}*
