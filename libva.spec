@@ -1,6 +1,15 @@
+# libva is used by mesa. Mesa is used by wine and steam.
+%ifarch %{x86_64}
+%bcond_without compat32
+%else
+%bcond_with compat32
+%endif
+
 %define major 2
 %define libname %mklibname va %{major}
 %define devname %mklibname va -d
+%define lib32name libva%{major}
+%define dev32name libva-devel
 %global optflags %{optflags} -O3
 
 %bcond_without	glx
@@ -8,10 +17,10 @@
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Version:	2.7.1
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	MIT
-Url:		http://freedesktop.org/wiki/Software/vaapi
+Url:		http://01.org/linuxmedia
 Source0:	https://github.com/intel/libva/archive/%{version}/%{name}-%{version}.tar.gz
 %if %{with glx}
 BuildRequires:	pkgconfig(egl)
@@ -25,6 +34,16 @@ BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(wayland-client)
 BuildRequires:  meson
+%if %{with compat32}
+BuildRequires:	devel(libdrm)
+BuildRequires:	devel(libpciaccess)
+BuildRequires:	devel(libudev)
+BuildRequires:	devel(libX11)
+BuildRequires:	devel(libXext)
+BuildRequires:	devel(libXfixes)
+BuildRequires:	devel(libwayland-client)
+BuildRequires:	devel(libGL)
+%endif
 
 %description
 Libva is a library providing the VA API video acceleration API.
@@ -56,25 +75,71 @@ Libva is a library providing the VA API video acceleration API.
 Summary:	Development files for %{name}
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
-Provides:	%{name}-devel = %{EVRD}
 
 %description -n %{devname}
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
+%if %{with compat32}
+%package -n %{lib32name}
+Summary:	Shared library for %{name} (32-bit)
+Group:		System/Libraries
+Requires:	libva-drm%{major} = %{EVRD}
+%if %{with glx}
+Requires:	libva-glx%{major} = %{EVRD}
+%endif
+Requires:	libva-wayland%{major} = %{EVRD}
+Requires:	%{mklib32name va-x11 %{major}} = %{EVRD}
+
+%description -n %{lib32name}
+Libva is a library providing the VA API video acceleration API.
+
+%lib32package va-drm %{major}
+%if %{with glx}
+%lib32package va-glx %{major}
+%endif
+%lib32package va-wayland %{major}
+%lib32package va-x11 %{major}
+
+%package -n %{dev32name}
+Summary:	Development files for %{name}
+Group:		Development/C
+Requires:	%{lib32name} = %{EVRD}
+
+%description -n %{dev32name}
+The %{name}-devel package contains libraries and header files for
+developing applications that use %{name}.
+%endif
+
 %prep
 %autosetup -p1
 
-%build
+%if %{with compat32}
+%meson32 \
+%if %{with glx}
+	-Dwith_glx=yes \
+%endif
+	-Dwith_x11=yes \
+	-Dwith_wayland=yes
+%endif
+
 %meson \
 %if %{with glx}
 	-Dwith_glx=yes \
 %endif
 	-Dwith_x11=yes \
 	-Dwith_wayland=yes
+
+%build
+%if %{with compat32}
+%ninja_build -C build32
+%endif
 %meson_build
 
 %install
+%if %{with compat32}
+%ninja_install -C build32
+%endif
 %meson_install
 
 %files -n %{libname}
@@ -85,3 +150,12 @@ developing applications that use %{name}.
 %{_includedir}/va
 %{_libdir}/%{name}*.so
 %{_libdir}/pkgconfig/%{name}*.pc
+
+%if %{with compat32}
+%files -n %{lib32name}
+%{_prefix}/lib/%{name}.so.%{major}*
+
+%files -n %{dev32name}
+%{_prefix}/lib/%{name}*.so
+%{_prefix}/lib/pkgconfig/%{name}*.pc
+%endif
