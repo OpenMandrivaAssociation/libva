@@ -33,6 +33,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(wayland-client)
+BuildRequires:  pkgconfig(xcb)
 BuildRequires:  meson
 %if %{with compat32}
 BuildRequires:	devel(libdrm)
