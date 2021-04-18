@@ -12,16 +12,20 @@
 %define dev32name libva-devel
 %global optflags %{optflags} -O3
 
-%bcond_without	glx
+%bcond_without glx
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Version:	2.11.0
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	MIT
 Url:		http://01.org/linuxmedia
 Source0:	https://github.com/intel/libva/archive/%{version}/%{name}-%{version}.tar.gz
+%ifarch %{armx}
+# (tpg) Support for the Hantro IP based Video Processing Units present on Rockchip and NXP i.MX8M SoCs
+Patch0:		libva-2.11.0-add-hantro-driver-support.patch
+%endif
 %if %{with glx}
 BuildRequires:	pkgconfig(egl)
 BuildRequires:	pkgconfig(gl)
