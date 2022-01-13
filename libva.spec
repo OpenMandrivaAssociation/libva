@@ -12,19 +12,18 @@
 %define dev32name libva-devel
 %global optflags %{optflags} -O3
 
-%bcond_without	glx
+%bcond_without glx
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
 Version:	2.13.0
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	MIT
 Url:		http://01.org/linuxmedia
 Source0:	https://github.com/intel/libva/archive/%{version}/%{name}-%{version}.tar.gz
 %ifarch %{armx}
 # (tpg) add support fot Hantro VPU
-Patch0:		https://patch-diff.githubusercontent.com/raw/intel/libva/pull/332.patch
 Patch1:		https://patch-diff.githubusercontent.com/raw/intel/libva/pull/340.patch
 %endif
 %if %{with glx}
@@ -38,8 +37,8 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(wayland-client)
-BuildRequires:  pkgconfig(xcb)
-BuildRequires:  meson
+BuildRequires:	pkgconfig(xcb)
+BuildRequires:	meson
 %if %{with compat32}
 BuildRequires:	devel(libdrm)
 BuildRequires:	devel(libpciaccess)
