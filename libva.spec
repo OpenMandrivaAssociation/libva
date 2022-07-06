@@ -16,7 +16,7 @@
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
-Version:	2.14.0
+Version:	2.15.0
 Release:	1
 Group:		System/Libraries
 License:	MIT
@@ -24,7 +24,7 @@ Url:		http://01.org/linuxmedia
 Source0:	https://github.com/intel/libva/archive/%{version}/%{name}-%{version}.tar.gz
 %ifarch %{armx}
 # (tpg) add support fot Hantro VPU
-Patch1:		https://patch-diff.githubusercontent.com/raw/intel/libva/pull/340.patch
+#Patch1:		https://patch-diff.githubusercontent.com/raw/intel/libva/pull/340.patch
 %endif
 %if %{with glx}
 BuildRequires:	pkgconfig(egl)
