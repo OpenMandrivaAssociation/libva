@@ -137,7 +137,8 @@ developing applications that use %{name}.
 	-Dwith_glx=yes \
 %endif
 	-Dwith_x11=yes \
-	-Dwith_wayland=yes
+	-Dwith_wayland=yes \
+	-Dwith_legacy=emdg,nvctrl,fglrx
 
 %build
 %if %{with compat32}
