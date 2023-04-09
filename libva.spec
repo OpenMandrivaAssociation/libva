@@ -6,8 +6,10 @@
 %endif
 
 %define major 2
-%define libname %mklibname va %{major}
+%define oldlibname %mklibname va 2
+%define libname %mklibname va
 %define devname %mklibname va -d
+%define oldlib32name libva2
 %define lib32name libva%{major}
 %define dev32name libva-devel
 %global optflags %{optflags} -O3
@@ -16,8 +18,8 @@
 
 Summary:	Video Acceleration (VA) API for Linux
 Name:		libva
-Version:	2.17.0
-Release:	2
+Version:	2.18.0
+Release:	1
 Group:		System/Libraries
 License:	MIT
 Url:		http://01.org/linuxmedia
@@ -60,15 +62,16 @@ Libva is a library providing the VA API video acceleration API.
 %package -n %{libname}
 Summary:	Shared library for %{name}
 Group:		System/Libraries
-Requires:	%{mklibname va-drm %{major}} = %{EVRD}
+Requires:	%{mklibname va-drm} = %{EVRD}
 %if %{with glx}
-Requires:	%{mklibname va-glx %{major}} = %{EVRD}
+Requires:	%{mklibname va-glx} = %{EVRD}
 %endif
-Requires:	%{mklibname va-wayland %{major}} = %{EVRD}
-Requires:	%{mklibname va-x11 %{major}} = %{EVRD}
+Requires:	%{mklibname va-wayland} = %{EVRD}
+Requires:	%{mklibname va-x11} = %{EVRD}
 %ifnarch %{armx} %{riscv}
 Requires:	libva-intel-driver
 %endif
+%rename %{oldlibname}
 
 %description -n %{libname}
 Libva is a library providing the VA API video acceleration API.
@@ -93,12 +96,13 @@ developing applications that use %{name}.
 %package -n %{lib32name}
 Summary:	Shared library for %{name} (32-bit)
 Group:		System/Libraries
-Requires:	libva-drm%{major} = %{EVRD}
+Requires:	libva-drm = %{EVRD}
 %if %{with glx}
-Requires:	libva-glx%{major} = %{EVRD}
+Requires:	libva-glx = %{EVRD}
 %endif
-Requires:	libva-wayland%{major} = %{EVRD}
-Requires:	%{mklib32name va-x11 %{major}} = %{EVRD}
+Requires:	libva-wayland = %{EVRD}
+Requires:	%{mklib32name va-x11} = %{EVRD}
+%rename %{oldlib32name}
 
 %description -n %{lib32name}
 Libva is a library providing the VA API video acceleration API.
